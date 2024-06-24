@@ -29,22 +29,21 @@ factor = 1# this lets you control the factor to increase the surface lowering ba
 ########################################################################################################################
 
 # Data folders
-workDir = 'C:/Users/mu92vogu/Desktop/PeritoMoreno_Paper/Data/2019-2023/alligned'
-output_dir = 'C:/Users/mu92vogu/Desktop/PeritoMoreno_Paper/Data/2019-2023/Results/2023_icethickness_100m_retreat/'
+workDir = 'C:/Users/....'
+output_dir = 'C:/Users/....'
 readme_path = f'{output_dir}README.txt'
 
 # Directory to save the plots and GeoTIFFs
 #output_dir = (f"{output_dir}/removed20192022dhdhtx2")  # Replace with your desired output directory
 
 # load data maps
-elevation_rast = rasterio.open(workDir + '/elevation_TDX_2023.tif')
-#thickness_rast = rasterio.open(workDir + '/thickness_rast_2ndStep.tif')
-thickness_rast = rasterio.open(workDir + '/2023updated_thickness_2nd_step.tif')
-outlines_rast = rasterio.open(workDir + '/outlines_2023.tif')
-dhdt_rast = rasterio.open(workDir + '/100mBin_min180tomax2280.tif')
-bedrock_rast = rasterio.open(workDir + '/bedrock.tif')
-lakelayer = rasterio.open(workDir + '/lakelayer.tif')
-elevation_change_rates = pd.read_csv('C:/Users/mu92vogu/Desktop/PeritoMoreno_Paper/Data/2019-2023/alligned/elevation_change_rate_per_bin.csv')
+elevation_rast = rasterio.open(workDir + '/elevation_TDX_2023.tif')   #elevation_file here
+thickness_rast = rasterio.open(workDir + '/2023updated_thickness_2nd_step.tif')  # ice thickness raster here
+outlines_rast = rasterio.open(workDir + '/outlines_2023.tif')  #outlines here
+dhdt_rast = rasterio.open(workDir + '/100mBin_min180tomax2280.tif') #dhdt elev binned tif here (optional)
+bedrock_rast = rasterio.open(workDir + '/bedrock.tif') #bedrock raster here (optional)
+lakelayer = rasterio.open(workDir + '/lakelayer.tif') #lake layer here (optional)
+elevation_change_rates = pd.read_csv('C:/Users/.... .csv') #dhdt elev binned csv file here
 
 
 #########################################################################################################################################################################################
@@ -123,7 +122,7 @@ gaps_mask[labeled_image == final_cluster] = 0
 # fill gaps
 lake_mask_binary[gaps_mask == 1] = 1
 
-
+# Frontal detection by array padding
 # this function calculates the ice front for each iteration
 '''def extract_front(glacier_surface, lake_mask_binary):
     # Create a mask for areas where no thickness data is present
@@ -160,6 +159,8 @@ lake_mask_binary[gaps_mask == 1] = 1
  
     return front_dilated'''
 
+
+# Countour frontal detection
 def extract_front(glacier_surface, lake_mask_binary):
     glacier = np.where(glacier_surface >= 1, 1, 0)
                 #glacier = cv2.cvtColor(glacier, cv2.COLOR_BGR2GRAY)
@@ -177,10 +178,10 @@ contours = plt.contour(outlines, levels=[0.5], colors='black', linewidths=1)
 results = []
 
 for year in range(2023, 2101):
-    '''# Remove an elevation change rate field from the raster(s):
+    '''# Remove an elevation change rate field from the raster(s): #this is not needed if a .csv file is used 
     glacier_surface -= dhdht * factor
     thickness -= dhdht * factor'''
-
+    
 
 
     # Iterate over each pixel in the raster including elevation feedback from dh/dt
@@ -211,7 +212,7 @@ for year in range(2023, 2101):
     front_mask_int = front_mask.astype('uint8')
 
    # Define the output file path
-    output_file = (f'C:/Users/mu92vogu/Desktop/PeritoMoreno_Paper/Data/2019-2023/Results/2023_Icefronts/icefront_{retreat_rate}_{year}_dialate.tif')
+    output_file = (f'C:/Users/ .... /icefront_{retreat_rate}_{year}_dialate.tif')
 
 
     # Save the glacier surface as a GeoTIFF
