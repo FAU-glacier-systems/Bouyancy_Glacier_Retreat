@@ -201,8 +201,8 @@ for year in range(2023, 2101):
                 positive_change_rate = abs(change_rate)
 
                 # Apply the positive change rate to update the glacier_surface and thickness arrays
-                glacier_surface[i, j] -= dhdht[i, j] * positive_change_rate
-                thickness[i, j] -= dhdht[i, j] * positive_change_rate
+                glacier_surface[i, j] -=  positive_change_rate
+                thickness[i, j] -=  positive_change_rate
 
     # call extract front function
     front = extract_front(glacier_surface, lake_mask_binary)
@@ -330,4 +330,5 @@ with open(readme_path, 'w') as readme_file:
     readme_file.write(f"Thickness Raster: {thickness_rast}\n")
     readme_file.write(f"Outlines Raster: {outlines_rast}\n")
     readme_file.write(f"Dh/Dt Raster: {dhdt_rast}\n")
+
 
